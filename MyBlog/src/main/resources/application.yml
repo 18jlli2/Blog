@@ -4,7 +4,14 @@ spring:
     url: jdbc:mysql://localhost:3306/blogdb?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: ljl094813.
+
+
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
 server:
   port: 8082
+
+comment.avatar: /images/avatar.jpg
+message.avatar: /images/avatar.jpg
+
+

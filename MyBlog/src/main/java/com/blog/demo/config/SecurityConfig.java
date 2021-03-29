@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -33,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
     CustomUserServiceImpl customUserService;
+
     @Bean
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -47,6 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/blog/vuefindByPage","/blog/getByBlogId",
+                           "/type/getAllType","/tag/getAllTag","/blog/getByTitle",
+                           "/comment/comments/{blogId}","/comment/comments",
+                            "/blog/countBlog","/comment/getCommentByPage",
+                            "/links/getAllLink","/blog/vuefindHotBlog").permitAll()
+//                .antMatchers("/blog/getByBlogId").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -81,8 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         //如果登录失败也返回一段json
                         resp.setContentType("application/json;charset=utf-8");
                         //设置状态码
-                        //resp.setStatus(401);
-
+                        resp.setStatus(401);
                         //这是往出写的
                         PrintWriter out = resp.getWriter();
                         RespBean respBean = RespBean.error("登录失败！");

@@ -1,20 +1,23 @@
 package com.blog.demo.entity;
 
+import java.time.LocalDateTime;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Collection;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author 关注公众号：小L星光
@@ -55,9 +58,15 @@ public class TUser implements Serializable,UserDetails {
     @ApiModelProperty(value = "用户名")
     private String username;
 
+    private List<TRole> roles;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//        for (TRole role : getRoles()){
+//            authorities.add(new SimpleGrantedAuthority(role.getName()));
+//        }
         return null;
     }
     @Override

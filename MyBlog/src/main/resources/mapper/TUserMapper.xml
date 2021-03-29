@@ -17,5 +17,5 @@
     <!--  根据用户名查询用户-->
     <select id="loadUserByUsername" resultMap="BaseResultMap">
         select * from t_user where username=#{username}
-    </select>
+   </select>
 </mapper>
