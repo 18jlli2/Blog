@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
  *  前端控制器
  * </p>
  *
- * @author 关注公众号：小L星光
- * @since 2020-11-30
  */
 @RestController
 public class TUserController {

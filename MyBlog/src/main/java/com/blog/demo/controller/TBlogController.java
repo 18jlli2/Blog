@@ -15,14 +15,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 
 
-/**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author 关注公众号：小L星光
- * @since 2020-11-30
- */
+
 @RestController
 @RequestMapping("/blog")
 public class TBlogController {
