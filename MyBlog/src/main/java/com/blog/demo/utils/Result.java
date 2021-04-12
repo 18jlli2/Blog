@@ -13,7 +13,6 @@ public class Result implements Serializable {
         Result m = new Result();
         m.setCode("0");
         m.setData(data);
-        m.setMsg("操作成功");
         return m;
     }
     public static Result succ(String mess, Object data) {

@@ -2,6 +2,7 @@ package com.blog.demo.mapper;
 
 import com.blog.demo.entity.TBlog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 
@@ -15,6 +16,7 @@ import java.util.List;
  * @author 关注公众号：小L星光
  * @since 2020-11-30
  */
+@Mapper
 public interface TBlogMapper extends BaseMapper<TBlog> {
     //根据id查找博客
     TBlog getByBlogId(@Param("id") String id);
@@ -25,6 +27,8 @@ public interface TBlogMapper extends BaseMapper<TBlog> {
     List<TBlog> findAllBlog();
     //前台根据标题查找博客
     List<TBlog> getByTitle(String title);
+    //根据分类Id查询分类名称
+//    String getTypeNameByTypeId(Long type_id);
 
 //    void updateByComment(TBlog tBlog);
 }

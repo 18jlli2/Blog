@@ -19,6 +19,7 @@
         <result column="update_time" property="updateTime"/>
         <result column="is_delete" property="isDelete"/>
         <result column="type_id" property="typeId"/>
+        <result column="type_name" property="typeName"/>
         <collection property="tUser" ofType="com.blog.demo.entity.TUser">
             <result column="username" property="username"/>
             <result column="avatar" property="avatar"/>
@@ -48,6 +49,10 @@
         where blogs_id = #{id}
 
     </select>
+<!--&lt;!&ndash;    根据分类Id查询分类名称&ndash;&gt;-->
+<!--    <select id="getTypeNameByTypeId" resultMap="MyBlogMap">-->
+<!--        select name from t_type where id =#{type_id}-->
+<!--    </select>-->
 
     <!--前台分页查询-->
     <select id="vuefindByPage" resultMap="MyBlogMap">
@@ -80,15 +85,18 @@
     </select>
 
     <!--根据标题查找博客-->
+<!--    <select id="getByTitle" resultMap="MyBlogMap">-->
+<!--          select b.*,t.name as tags_name,t.id as tags_id,-->
+<!--          t_type.id as type_id,t_type.name as type_name,t2.*-->
+<!--        from t_blog_tags bt-->
+<!--          left join t_blog b on bt.blogs_id = b.id-->
+<!--          left join t_tag t on bt.tags_id = t.id-->
+<!--          left join t_type on b.type_id = t_type.id-->
+<!--          left join t_user t2 on b.user_id = t2.id-->
+<!--        where title like '%' #{title} '%'-->
+<!--    </select>-->
     <select id="getByTitle" resultMap="MyBlogMap">
-          select b.*,t.name as tags_name,t.id as tags_id,
-          t_type.id as type_id,t_type.name as type_name,t2.*
-        from t_blog_tags bt
-          left join t_blog b on bt.blogs_id = b.id
-          left join t_tag t on bt.tags_id = t.id
-          left join t_type on b.type_id = t_type.id
-          left join t_user t2 on b.user_id = t2.id
-        where title like '%' #{title} '%'
+        select *from t_blog where title like '%' #{title} '%'
     </select>
 
     <!--&lt;!&ndash;更新评论总数&ndash;&gt;-->

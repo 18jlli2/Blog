@@ -24,7 +24,7 @@ public interface TTypeService extends IService<TType> {
 
     RespBean updateType(TType tType);
 
-    RespBean getTypeById(Long id);
+    String getTypeById(Long id);
 
     RespBean getAllType();
 
