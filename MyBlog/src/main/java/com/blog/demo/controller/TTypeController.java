@@ -38,7 +38,6 @@ public class TTypeController {
     public RespBean saveType(@RequestBody TType tType){
         if (StringUtils.isEmpty(tType.getName())){
             respBean.setStatus(500);
-            respBean.setMsg("分类专栏名称不能为空！");
             return respBean;
         }
         QueryWrapper<TType> queryWrapper = new QueryWrapper<TType>();
@@ -69,7 +68,6 @@ public class TTypeController {
     @GetMapping("/getAllType")
     public List<TType> getAllType(){
         List<TType> typeList = tTypeService.list();
-        System.out.println(typeList);
         return typeList;
     }
 
@@ -123,14 +121,5 @@ public class TTypeController {
         return tTypeService.deleteTypeById(id);
     }
 
-    /**
-     * 根据id查询分类
-     * @param id
-     * @return
-     */
-    @GetMapping("/getTypeById")
-    public String getTypeById(Long id){
-        return tTypeService.getTypeById(id);
-    }
 
 }

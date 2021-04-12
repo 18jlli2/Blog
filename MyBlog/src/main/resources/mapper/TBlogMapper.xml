@@ -26,7 +26,7 @@
             <result column="email" property="email"/>
         </collection>
         <collection property="tType" ofType="com.blog.demo.entity.TType">
-            <id column="type_id" property="id"/>
+            <result column="type_id" property="id"/>
             <result column="type_name" property="name"/>
         </collection>
         <collection property="tBlogTags" ofType="com.blog.demo.entity.TBlogTags">

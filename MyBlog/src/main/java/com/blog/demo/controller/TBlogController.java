@@ -92,7 +92,7 @@ public class TBlogController {
      * @param params
      * @return
      */
-    @PostMapping("/savaBT")
+    @PostMapping("/saveBT")
     public RespBean saveBlogTag(@RequestBody HashMap<String,Object> params) {
         RespBean check = BlogForm.check(params);
         if (check.getStatus() == 500) {

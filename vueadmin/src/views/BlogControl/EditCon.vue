@@ -95,6 +95,7 @@ export default {
         first_picture:"",
         content:"",
         type_id:'',
+        type_name:'',
         flag:'',
         published:null,
         tags:[],
@@ -197,10 +198,12 @@ export default {
       this.getRequest('/blog/getByBlogId?id=' + this.id).then(res=>{
         if(res && res.obj){
           that.editForm = res.obj
+          console.log(12)
+          console.log(res.obj)
           that.editForm.published = res.obj.published == 0 ? '私密' : '公开'
-          that.editForm.type_id = res.obj.type_id + ''
-          that.editForm.first_picture = res.obj.first_picture
-
+          that.editForm.first_picture = res.obj.firstPicture
+          that.editForm.type_id = res.obj.typeId
+          that.editForm.type_name = res.obj.typeName
           let ttags = res.obj.tblogTags
           ttags.forEach((val,idx)=>{
             ttags[idx] = val.ttag.name + ''
@@ -215,7 +218,7 @@ export default {
         if(valid){
           that.postRequest('/blog/saveBT',that.editForm).then(res=>{
             if(res){
-              that.$router.push('/admin/allblogs')
+              that.$router.push('/admin/home/AllCon')
               that.$message({
                 message:"发布成功!",
                 type:"success"

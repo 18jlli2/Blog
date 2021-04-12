@@ -19,9 +19,8 @@ public class BlogForm {
         String first_picture = (String) params.get("first_picture");
         String content = (String) params.get("content");
         List<String> tags = (List) params.get("tags");
-        System.out.println("stt");
         Long type_id = Long.parseLong((String) params.get("type_id").toString());
-        System.out.println(type_id);
+        String type_name=(String) params.get("type_name");
         String flag = (String) params.get("flag");
 //        Boolean published = (Boole0.000an) params.get("published");
         RespBean info = new RespBean();
@@ -36,6 +35,8 @@ public class BlogForm {
         }else if (tags.size() == 0) {
             info.setStatus(500);
         }else if (type_id == null) {
+            info.setStatus(500);
+        }else if(type_name == null){
             info.setStatus(500);
         }else if (StringUtils.isEmpty(flag)) {
             info.setStatus(500);

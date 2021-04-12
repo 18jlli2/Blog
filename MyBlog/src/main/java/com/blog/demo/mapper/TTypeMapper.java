@@ -20,5 +20,4 @@ public interface TTypeMapper extends BaseMapper<TType> {
 
     List<TType> getAllType();
 
-    String getTypeById(Long id);
 }

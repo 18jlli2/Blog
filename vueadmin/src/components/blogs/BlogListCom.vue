@@ -22,8 +22,9 @@
               <el-tag size="small" style="margin-right:10px"
               v-if="scope.row.shareStatement" type="info">
               {{scope.row.published == '0' ? '私密' : '公开'}}</el-tag>
-              <!-- <el-tag size="small" style="margin-right:30px"
-              v-if="scope.row.shareStatement && scope.row.tblogTags" type="success">{{scope.row.tblogTags}}</el-tag> -->
+
+              <el-tag size="small" style="margin-right:30px">{{scope.row.typeName}}</el-tag>
+
               <i style="margin-right:20px" class="el-icon-view">{{scope.row.views}}</i>
               <i style="margin-right:20px" class="el-icon-chat-square">{{scope.row.commentCount}}</i>
               <i style="margin-right:20px" class="el-icon-date">{{scope.row.createTime}}</i>
@@ -121,6 +122,7 @@ export default {
       let that = this;
       this.getRequest(baseurl).then(res =>{
         if(res){
+          console.log(res.obj.records)
           that.blogsData = res.obj.records;//得到查询到的数据
           // that.blogsData.forEach((val,idx)=>{//获取type 待修复bug
           //   if(val.typeId != null){

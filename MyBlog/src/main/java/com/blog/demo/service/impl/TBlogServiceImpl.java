@@ -43,6 +43,7 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
     TBlogTagsMapper tBlogTagsMapper;
     @Autowired
     RedisTemplate redisTemplate;
+
     @Autowired
     TTypeMapper tTypeMapper;
     /**
@@ -90,12 +91,6 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
         //通过Page对象获取分页信息
         List<TBlog> tBlogList = tBlogPage.getRecords(); //每页的数据 list集合
         //遍历分页信息，设置分页中每个对象的分类名称
-
-        for(TBlog tBlog:tBlogList){
-            tBlog.setTypeName(tTypeMapper.getTypeById(tBlog.getTypeId()));
-            System.out.println(tBlog.getTypeId());
-            System.out.println(tTypeMapper.getTypeById(tBlog.getTypeId()));
-        }
         tBlogPage.setRecords(tBlogList);
         long size = tBlogPage.getSize(); //每页显示的条数
         long total = tBlogPage.getTotal(); //总记录数
@@ -119,7 +114,6 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
 //        queryWrapper.like("title",title);
 //        List<TBlog> tBlogList = tBlogMapper.selectList(queryWrapper);
         List<TBlog> tBlogList = tBlogMapper.getByTitle(title);
-        System.out.println(tBlogList);
         respBean.setStatus(200);
         respBean.setObj(tBlogList);
         return respBean;
@@ -138,11 +132,9 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
         tBlog.setDescription((String) params.get("description"));
         tBlog.setFirstPicture((String) params.get("first_picture"));
         tBlog.setContent((String) params.get("content"));
-        System.out.println("test");
         tBlog.setTypeId(Long.parseLong(params.get("type_id").toString()));
-//        tBlog.setTypeName((String)params.get("type_name"));/////
+        tBlog.setTypeName((String)params.get("type_name"));
         tBlog.setFlag((String) params.get("flag"));
-
         String publish = (String) params.get("published");
         if (publish.equals("1")){
             tBlog.setPublished(true);
@@ -267,11 +259,9 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
             tBlog.setUpdateTime(LocalDateTime.now());
             tBlogMapper.updateById(tBlog);
             respBean.setStatus(200);
-            respBean.setMsg("删除博客成功！");
             return respBean;
         }else {
             respBean.setStatus(500);
-            respBean.setMsg("删除博客失败");
             return respBean;
         }
     }
@@ -304,11 +294,9 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
         int r_blog = tBlogMapper.deleteById(id);
         if (r_tag != 0 && r_blog_tag!= 0 && r_blog!= 0){
             respBean.setStatus(200);
-            respBean.setMsg("删除博客和标签成功");
             return respBean;
         }else {
             respBean.setStatus(500);
-            respBean.setMsg("删除博客和标签失败");
             return respBean;
         }
 
@@ -328,11 +316,9 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
             tBlog.setUpdateTime(LocalDateTime.now());
             tBlogMapper.updateById(tBlog);
             respBean.setStatus(200);
-            respBean.setMsg("还原博客成功！");
             return respBean;
         }else {
             respBean.setStatus(500);
-            respBean.setMsg("还原博客失败");
             return respBean;
         }
     }
@@ -345,11 +331,8 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
     @Override
     public RespBean getByBlogId(String id) {
         RespBean respBean = RespBean.build();
-        System.out.println(id);
         TBlog tBlog = tBlogMapper.getByBlogId(id);
-        System.out.println("1");
         tBlog.setViews(tBlog.getViews() + 1);
-        System.out.println("2");
         tBlogMapper.updateById(tBlog);
         respBean.setStatus(200);
         respBean.setObj(tBlog);

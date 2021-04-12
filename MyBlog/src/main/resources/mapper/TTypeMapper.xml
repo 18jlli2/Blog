@@ -13,7 +13,5 @@
         from t_blog left join t_type t2 on t_blog.type_id = t2.id
         group by type_id
     </select>
-    <select id="getTypeById" resultMap="myGetAllTypeMap">
-        select name from t_type where id=#{id}
-    </select>
+
 </mapper>

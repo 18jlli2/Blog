@@ -38,6 +38,7 @@ public class TTypeServiceImpl extends ServiceImpl<TTypeMapper, TType> implements
         tTypeMapper.selectPage(typePage,wrapper);
         //通过Page对象获取分页信息
         List<TType> typeList = typePage.getRecords(); //每页的数据 list集合
+        System.out.println(typeList);
         long pagesize = typePage.getSize(); //每页显示的条数
         long total = typePage.getTotal(); //总记录数
         long pages = typePage.getPages(); //总页数
@@ -87,11 +88,6 @@ public class TTypeServiceImpl extends ServiceImpl<TTypeMapper, TType> implements
         return respBean;
     }
 
-    @Override
-    public String getTypeById(Long id) {
-        String type_name = tTypeMapper.getTypeById(id);
-        return type_name;
-    }
 
     @Override
     public RespBean getAllType() {

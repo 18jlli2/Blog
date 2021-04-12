@@ -51,8 +51,8 @@
             :rules="{
               required: true, message: '分类专栏不能为空', trigger: 'blur'
             }"> 
-          <el-select v-model="editForm.type_id" placeholder="请选择分类专栏"> 
-            <el-option v-for="(item,idx) in getalltype" :key="idx" :label="item.name" :value="item.id + ''"></el-option>
+          <el-select v-model="typeTemp" placeholder="请选择分类专栏"  @change="handleTypeSelect()"> 
+            <el-option v-for="(item,idx) in getalltype" :key="idx" :label="item.name" :value="item.id + '#' + item.name"></el-option>
           </el-select>
           <el-button type="primary" size="small" @click="dialog2 = true" style="margin-left:10px">新建分类专栏</el-button>
         </el-form-item>
@@ -112,6 +112,7 @@ export default {
         first_picture:"",
         content:"",
         type_id:'',
+        type_name:'',
         flag:'',
         published:null,
         tags:[],
@@ -150,6 +151,7 @@ export default {
       inputVisible:false,
       inputValue:'',
       dialog2:false,
+      typeTemp:'',
     }
   },
   //生命周期 - 创建完成（访问当前this实例）
@@ -208,7 +210,7 @@ export default {
       let that = this;
       this.getRequest('/type/getAllType').then(res=>{
         console.log(res)
-        that.getalltype = res.obj
+        that.getalltype = res
       })
     },
     submitNewType(type){//确定新建分类专栏触发
@@ -234,15 +236,22 @@ export default {
         }
       })
     },
+    handleTypeSelect(){
+      console.log(this.typeTemp)
+      let arr = this.typeTemp.split('#')
+      this.editForm.type_id = arr[0];
+      this.editForm.type_name = arr[1]
+      console.log(this.editForm)
+    },
     submitBlog(editForm2){//最终提交博客
       let that = this;
       this.$refs[editForm2].validate(valid=>{
         if(valid){
-          console.log(that.editForm)
           that.postRequest('/blog/saveBT',that.editForm).then(res=>{
+            console.log(res);
             if(res){
               that.dialogFormVisible = false;
-              that.$router.push('/admin/allblogs')
+              that.$router.push('/admin/home/AllCon')
               that.$message({
                 message:"发布成功!",
                 type:"success"
