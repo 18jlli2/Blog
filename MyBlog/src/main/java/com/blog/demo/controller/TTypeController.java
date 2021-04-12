@@ -25,7 +25,7 @@ import java.util.List;
 public class TTypeController {
 
     @Autowired
-    TTypeService tTypeService;
+     TTypeService tTypeService;
 
     RespBean respBean = RespBean.build();
 
@@ -67,9 +67,10 @@ public class TTypeController {
      * @return
      */
     @GetMapping("/getAllType")
-    public RespBean getAllType(){
-//        List<TType> typeList = tTypeService.list();
-        return tTypeService.getAllType();
+    public List<TType> getAllType(){
+        List<TType> typeList = tTypeService.list();
+        System.out.println(typeList);
+        return typeList;
     }
 
     /**
@@ -128,7 +129,7 @@ public class TTypeController {
      * @return
      */
     @GetMapping("/getTypeById")
-    public RespBean getTypeById(Long id){
+    public String getTypeById(Long id){
         return tTypeService.getTypeById(id);
     }
 

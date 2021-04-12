@@ -81,6 +81,9 @@ public class TBlog implements Serializable {
     @ApiModelProperty(value = "分类id")
     private Long typeId;
 
+    @ApiModelProperty(value = "分类名称")
+    private String typeName;
+
     @JsonSerialize(using = ToStringSerializer.class) //系统序列化时，保留相关精度
     @ApiModelProperty(value = "用户id")
     private Long userId;

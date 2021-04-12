@@ -34,6 +34,7 @@ CREATE TABLE `t_blog`  (
   `update_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `views` int(11) NULL DEFAULT 0 COMMENT '浏览量',
   `type_id` bigint(20) NULL DEFAULT NULL COMMENT '分类id',
+  `type_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '分类名称',
   `user_id` bigint(20) NULL DEFAULT 1 COMMENT '用户id',
   `comment_count` bigint(20) NULL DEFAULT NULL COMMENT '评论次数',
   `is_delete` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',

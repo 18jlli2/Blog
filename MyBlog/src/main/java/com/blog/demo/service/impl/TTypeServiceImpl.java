@@ -88,12 +88,9 @@ public class TTypeServiceImpl extends ServiceImpl<TTypeMapper, TType> implements
     }
 
     @Override
-    public RespBean getTypeById(Long id) {
-        RespBean respBean = RespBean.build();
-        TType tType = tTypeMapper.selectById(id);
-        respBean.setStatus(200);
-        respBean.setObj(tType);
-        return respBean;
+    public String getTypeById(Long id) {
+        String type_name = tTypeMapper.getTypeById(id);
+        return type_name;
     }
 
     @Override

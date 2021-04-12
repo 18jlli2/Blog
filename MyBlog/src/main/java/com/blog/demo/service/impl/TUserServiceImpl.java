@@ -4,6 +4,7 @@ import com.blog.demo.entity.TUser;
 import com.blog.demo.mapper.TUserMapper;
 import com.blog.demo.service.TUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,5 +22,4 @@ import javax.annotation.Resource;
  */
 @Service
 public class TUserServiceImpl extends ServiceImpl<TUserMapper, TUser> implements TUserService {
-
 }

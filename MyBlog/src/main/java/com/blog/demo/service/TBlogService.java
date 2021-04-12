@@ -18,6 +18,8 @@ import java.util.HashMap;
 public interface TBlogService extends IService<TBlog> {
     //分页查询
     RespBean pageBlogs(Long current, Long limit, Boolean published, String flag, Boolean share_statement, Boolean is_delete);
+//    //根据分类Id查询分类名称
+//    String getTypeNameByTypeId(Long type_id);
     //根据博客标题查询
     RespBean getByTitle(String title);
     //添加博客和标签
