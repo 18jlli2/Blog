@@ -35,8 +35,8 @@
           </el-button>
         </el-form-item>
         <el-form-item label="分类专栏" prop="type_id"> 
-          <el-select v-model="editForm.type_id" placeholder="请选择分类专栏"> 
-            <el-option v-for="(item,idx) in getalltype" :key="idx" :label="item.name" :value="item.id + ''"></el-option>
+          <el-select v-model="typeTemp" placeholder="请选择分类专栏" @change="handleTypeSelect()"> 
+            <el-option v-for="(item,idx) in getalltype" :key="idx" :label="item.name" :value="item.id + '#' + item.name"></el-option>
           </el-select>
           <el-button type="primary" size="small" @click="dialog2 = true" style="margin-left:10px">新建分类专栏</el-button>
         </el-form-item>
@@ -57,7 +57,7 @@
         </el-form-item>
         <el-form-item style="margin:auto"><!--功能按钮-->
           <el-button type="primary" @click="submitBlog('editForm')">保存更改</el-button>
-          <router-link to="/admin/allblogs">
+          <router-link to="/admin/home/AllCon">
             <el-button type="info" style="margin-left: 10px;">返回</el-button>
           </router-link>
         </el-form-item>
@@ -137,7 +137,7 @@ export default {
       inputVisible:false,
       inputValue:'',
       dialog2:false,
-
+      typeTemp:'',
     }
   },
   props:['id'],
@@ -167,7 +167,7 @@ export default {
     initType(){//获取所有分类
       let that = this;
       this.getRequest('/type/getAllType').then(res=>{
-        that.getalltype = res.obj
+        that.getalltype = res
       })
     },
     submitNewType(type){//确定新建分类专栏触发
@@ -198,7 +198,6 @@ export default {
       this.getRequest('/blog/getByBlogId?id=' + this.id).then(res=>{
         if(res && res.obj){
           that.editForm = res.obj
-          console.log(12)
           console.log(res.obj)
           that.editForm.published = res.obj.published == 0 ? '私密' : '公开'
           that.editForm.first_picture = res.obj.firstPicture
@@ -209,18 +208,24 @@ export default {
             ttags[idx] = val.ttag.name + ''
           })
           that.editForm.tags = ttags
+          this.typeTemp = this.editForm.type_id + "#" + this.editForm.type_name;//初始化分类专栏值
         } 
       })
     },
+    handleTypeSelect(){//处理分类专栏选择
+      let arr = this.typeTemp.split('#')
+      this.editForm.type_id = arr[0];
+      this.editForm.type_name = arr[1]
+    },
     submitBlog(editForm){//最终提交博客
       let that = this;
       this.$refs[editForm].validate(valid=>{
         if(valid){
-          that.postRequest('/blog/saveBT',that.editForm).then(res=>{
+          that.postRequest('/blog/updateBlog',that.editForm).then(res=>{
             if(res){
               that.$router.push('/admin/home/AllCon')
               that.$message({
-                message:"发布成功!",
+                message:"更新成功!",
                 type:"success"
               })
             }

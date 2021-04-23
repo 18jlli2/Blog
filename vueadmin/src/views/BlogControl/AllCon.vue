@@ -65,9 +65,9 @@ export default {
         this.hidden_searchcom = true;
         let that = this;
         this.getRequest('/blog/getByTitle?title=' + this.input_title).then(res=>{
-          console.log(res)
           if(res){
             that.blogsData = res.obj
+            console.log(res.obj)
           }
         })
       }

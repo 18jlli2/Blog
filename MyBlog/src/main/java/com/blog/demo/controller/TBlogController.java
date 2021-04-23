@@ -8,13 +8,11 @@ import com.blog.demo.utils.RespBean;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
-
+import java.util.List;
 
 
 @RestController
@@ -23,6 +21,8 @@ public class TBlogController {
 
     @Autowired
     TBlogService tBlogService;
+    @Autowired
+    TBlogMapper tBlogMapper;
 
     RespBean respBean = RespBean.build();
 
@@ -50,12 +50,6 @@ public class TBlogController {
                               String flag, Boolean share_statement, Boolean is_delete){
         return tBlogService.pageBlogs(current, size,published,flag,share_statement,is_delete);
     }
-//    //根据分页id查询分页名称
-//    @GetMapping("/getTypeNameByTypeId")
-//    @ApiOperation("分页名称查询")
-//    public String getTypeNameByTypeId(Long type_id){
-//        return tBlogService.getTypeNameByTypeId(type_id);
-//    }
     /**
      * 前台分页
      * @param current
@@ -82,7 +76,6 @@ public class TBlogController {
     @GetMapping("/getByTitle")
     @ApiOperation("通过文章标题查询")
     @ApiImplicitParam(name = "title",value = "文章的标题")
-//    @Select("select* from t_blog where title =#{title}")
     public RespBean findByTitle(String title){
         return tBlogService.getByTitle(title);
     }
@@ -123,7 +116,7 @@ public class TBlogController {
      * @param params
      * @return
      */
-    @PutMapping("/updateBlog")
+    @PostMapping("/updateBlog")
     public RespBean updateBlog(@RequestBody HashMap<String,Object> params){
         RespBean checkUpdateBlog = BlogForm.check(params);
         if (checkUpdateBlog.getStatus() == 500) {
@@ -184,7 +177,7 @@ public class TBlogController {
      * @return
      */
     @GetMapping("/getByBlogId")
-    public RespBean getByBlogId(String id){
+    public RespBean getByBlogId(Long id){
         return tBlogService.getByBlogId(id);
     }
 

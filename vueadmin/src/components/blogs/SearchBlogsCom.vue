@@ -24,7 +24,7 @@
                 {{scope.row.published == "0" ? '私密' : "公开"}}
               </el-tag>
               <el-tag size="small" style="margin-right:30px"
-              v-if="scope.row.shareStatement" type="success">{{scope.row.tag}}</el-tag>
+              v-if="scope.row.shareStatement" type="success">{{scope.row.typeName}}</el-tag>
               <i style="margin-right:20px" class="el-icon-view">{{scope.row.views}}</i>
               <i style="margin-right:20px" class="el-icon-chat-square">{{scope.row.commentCount}}</i>
               <i style="margin-right:20px" class="el-icon-date">{{scope.row.createTime}}</i>

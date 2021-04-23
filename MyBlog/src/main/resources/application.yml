@@ -5,6 +5,10 @@ spring:
     username: root
     password: ljl094813.
 
+#二级缓存开启
+#mybatis:
+#  configuration:
+#    cache-enabled: true #开启应用mybatis二级缓存（mapper-namespace）
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml

@@ -13,14 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * <p>
- *  服务实现类
- * </p>
- *
- * @author 关注公众号：小L星光
- * @since 2020-11-30
- */
 @Service
 public class TLinksServiceImpl extends ServiceImpl<TLinksMapper, TLinks> implements TLinksService {
 
@@ -43,7 +35,6 @@ public class TLinksServiceImpl extends ServiceImpl<TLinksMapper, TLinks> impleme
         long pagesize = tLinksPage.getSize(); //每页显示的条数
         long total = tLinksPage.getTotal(); //总记录数
         long pages = tLinksPage.getPages(); //总页数
-
         respBean.setStatus(200);
         respBean.setObj(tLinksPage);
         return respBean;

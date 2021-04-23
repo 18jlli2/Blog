@@ -22,7 +22,7 @@ public class BlogForm {
         Long type_id = Long.parseLong((String) params.get("type_id").toString());
         String type_name=(String) params.get("type_name");
         String flag = (String) params.get("flag");
-//        Boolean published = (Boole0.000an) params.get("published");
+//        Boolean published = (Boolean) params.get("published");
         RespBean info = new RespBean();
         if (StringUtils.isEmpty(title)) {
             info.setStatus(500);
@@ -34,7 +34,7 @@ public class BlogForm {
             info.setStatus(500);
         }else if (tags.size() == 0) {
             info.setStatus(500);
-        }else if (type_id == null) {
+        }else if (type_id == 0) {
             info.setStatus(500);
         }else if(type_name == null){
             info.setStatus(500);

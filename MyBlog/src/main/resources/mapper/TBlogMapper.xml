@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.demo.mapper.TBlogMapper">
+<!--    <typeAlias type="com.blog.demo.entity.TBlog" alias="MyBlogMap"></typeAlias>-->
 
     <!--自定义Map-->
     <resultMap id="MyBlogMap" type="com.blog.demo.entity.TBlog">
+
         <id column="id" property="id"/>
         <result column="title" property="title"/>
         <result column="description" property="description"/>
@@ -30,17 +32,21 @@
             <result column="type_name" property="name"/>
         </collection>
         <collection property="tBlogTags" ofType="com.blog.demo.entity.TBlogTags">
-            <association property="tTag" javaType="com.blog.demo.entity.TTag">
-                <result column="tags_id" property="id"/>
-                <result column="tags_name" property="name"/>
+            <association property="tTag" javaType="TTag">
+                <result column="id" property="id"/>
+                <result column="name" property="name"/>
             </association>
         </collection>
     </resultMap>
 
-    <!--根据id查找博客并使用自定义映射文件-->
-    <select id="getByBlogId" resultMap="MyBlogMap">
-        select b.*,t.name as tags_name,t.id as tags_id,
-          t_type.id as type_id,t_type.name as type_name,t2.*
+<!--    根据id查找博客并使用自定义映射文件-->
+    <select id="getByBlogId" resultMap="MyBlogMap" >
+        select b.*,
+               t.name as tags_name,
+               t.id as tags_id,
+               t_type.id as type_id,
+               t_type.name as type_name,
+               t2.*
         from t_blog_tags bt
           left join t_blog b on bt.blogs_id = b.id
           left join t_tag t on bt.tags_id = t.id
@@ -49,10 +55,6 @@
         where blogs_id = #{id}
 
     </select>
-<!--&lt;!&ndash;    根据分类Id查询分类名称&ndash;&gt;-->
-<!--    <select id="getTypeNameByTypeId" resultMap="MyBlogMap">-->
-<!--        select name from t_type where id =#{type_id}-->
-<!--    </select>-->
 
     <!--前台分页查询-->
     <select id="vuefindByPage" resultMap="MyBlogMap">
@@ -77,27 +79,45 @@
             </if>
 
     </select>
-
+    
     <!--查询所有博客-->
     <select id="findAllBlog" resultMap="MyBlogMap">
         select * from t_blog
         where t_blog.published = true and t_blog.share_statement = true and t_blog.is_delete = false
     </select>
 
-    <!--根据标题查找博客-->
-<!--    <select id="getByTitle" resultMap="MyBlogMap">-->
-<!--          select b.*,t.name as tags_name,t.id as tags_id,-->
-<!--          t_type.id as type_id,t_type.name as type_name,t2.*-->
-<!--        from t_blog_tags bt-->
-<!--          left join t_blog b on bt.blogs_id = b.id-->
-<!--          left join t_tag t on bt.tags_id = t.id-->
-<!--          left join t_type on b.type_id = t_type.id-->
-<!--          left join t_user t2 on b.user_id = t2.id-->
-<!--        where title like '%' #{title} '%'-->
-<!--    </select>-->
+
+<!--    根据标题查找博客-->
     <select id="getByTitle" resultMap="MyBlogMap">
-        select *from t_blog where title like '%' #{title} '%'
+          select b.*,
+                 t.name as tags_name,
+                 t.id as tags_id,
+                 t_type.id as type_id,
+                 t_type.name as type_name,
+                 t2.*
+        from t_blog_tags bt
+          left join t_blog b on bt.blogs_id = b.id
+          left join t_tag t on bt.tags_id = t.id
+          left join t_type on b.type_id = t_type.id
+          left join t_user t2 on b.user_id = t2.id
+        where title like '%' #{title} '%'
     </select>
+
+<!--    sql语句使用-->
+<!--    <sql id="ByTitle">${alias}.*</sql>-->
+<!--    <sql id="table">${prefix}t_blog</sql>-->
+<!--    <sql id="someinclude">-->
+<!--        from-->
+<!--            <include refid="${include_target}"></include>-->
+<!--    </sql>-->
+<!--    <select id="getByTitle" resultMap="MyBlogMap">-->
+<!--        select-->
+<!--            <include refid="ByTitle"><property name="alias" value="test"/></include>-->
+<!--        <include refid="someinclude">-->
+<!--            <property name="prefix" value="Some"/>-->
+<!--            <property name="include_target" value="table"/>-->
+<!--        </include>-->
+<!--    </select>-->
 
     <!--&lt;!&ndash;更新评论总数&ndash;&gt;-->
     <!--<update id="updateByComment">-->

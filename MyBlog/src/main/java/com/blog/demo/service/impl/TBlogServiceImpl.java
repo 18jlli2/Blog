@@ -1,36 +1,23 @@
 package com.blog.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blog.demo.entity.*;
 import com.blog.demo.mapper.TBlogMapper;
 import com.blog.demo.mapper.TBlogTagsMapper;
 import com.blog.demo.mapper.TTagMapper;
-import com.blog.demo.mapper.TTypeMapper;
 import com.blog.demo.service.TBlogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.blog.demo.service.TTypeService;
-import com.blog.demo.service.impl.TTypeServiceImpl;
 import com.blog.demo.utils.RespBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+//import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
-/**
- * <p>
- *  服务实现类
- * </p>
- *
- * @author 关注公众号：小L星光
- * @since 2020-11-30
- */
 @Transactional(rollbackFor=Exception.class)  //开启事务
 @Service
 public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements TBlogService {
@@ -41,11 +28,11 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
     TTagMapper tTagMapper;
     @Autowired
     TBlogTagsMapper tBlogTagsMapper;
-    @Autowired
-    RedisTemplate redisTemplate;
+//    @Autowired
+//    RedisTemplate redisTemplate;
 
-    @Autowired
-    TTypeMapper tTypeMapper;
+
+
     /**
      * 分页查询
      * @param current
@@ -56,6 +43,13 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
      * @param is_delete
      * @return
      */
+//    List<TBlog> tBlogPage = tBlogMapper.selectPage(new Page<>(current,limit), new QueryWrapper<TBlog>()
+//            .eq("published",published)
+//            .eq("flag",flag)
+//            .eq("share_statement",share_stateme\nt)
+//            .eq("is_delete",is_delete)
+//            .orderByDesc("update_time")
+//    ).getRecords();
     @Override
     public RespBean pageBlogs(Long current, Long limit, Boolean published, String flag,
                               Boolean share_statement, Boolean is_delete) {
@@ -90,8 +84,6 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
 
         //通过Page对象获取分页信息
         List<TBlog> tBlogList = tBlogPage.getRecords(); //每页的数据 list集合
-        //遍历分页信息，设置分页中每个对象的分类名称
-        tBlogPage.setRecords(tBlogList);
         long size = tBlogPage.getSize(); //每页显示的条数
         long total = tBlogPage.getTotal(); //总记录数
         long pages = tBlogPage.getPages(); //总页数
@@ -202,8 +194,9 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
         tBlog.setFirstPicture((String) params.get("first_picture"));
         tBlog.setContent((String) params.get("content"));
         tBlog.setTypeId(Long.parseLong(params.get("type_id").toString()));
+        tBlog.setTypeName((String) params.get("type_name"));
         tBlog.setFlag((String) params.get("flag"));
-        tBlog.setPublished(Boolean.valueOf(params.get("published").toString()));
+        tBlog.setPublished(params.get("published").equals("1"));
         tBlog.setUpdateTime(LocalDateTime.now());
 
         //更新文章
@@ -238,7 +231,6 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
         }
         if (result_blog != 0 && result_tag != 0 && resule_bt !=0){
             respBean.setStatus(200);
-            respBean.setMsg("更新博客成功！");
             return respBean;
         }
         respBean.setMsg("更新博客失败");
@@ -329,7 +321,7 @@ public class TBlogServiceImpl extends ServiceImpl<TBlogMapper, TBlog> implements
      * @return
      */
     @Override
-    public RespBean getByBlogId(String id) {
+    public RespBean getByBlogId(Long id) {
         RespBean respBean = RespBean.build();
         TBlog tBlog = tBlogMapper.getByBlogId(id);
         tBlog.setViews(tBlog.getViews() + 1);
